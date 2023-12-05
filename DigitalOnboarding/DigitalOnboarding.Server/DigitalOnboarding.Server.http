@@ -1,0 +1,6 @@
+@DigitalOnboarding.Server_HostAddress = http://localhost:5274
+
+GET {{DigitalOnboarding.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
