@@ -2,5 +2,8 @@
 
 GET {{DigitalOnboarding.Server_HostAddress}}/weatherforecast/
 Accept: application/json
+###
 
+GET {{DigitalOnboarding.Server_HostAddress}}/projects/
+Accept: application/json
 ###
