@@ -2,6 +2,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login.tsx'
 import Home from './Home.tsx'
+import Project from './Project.tsx'
+
 import {
     BrowserRouter,
     Routes,
@@ -20,6 +22,10 @@ function App() {
                     <Route
                         path="/home"
                         element={<Home />}
+                    />
+                    <Route
+                        path="/project/:id"
+                        element={<Project />}
                     />
                 </Routes>
             </BrowserRouter>

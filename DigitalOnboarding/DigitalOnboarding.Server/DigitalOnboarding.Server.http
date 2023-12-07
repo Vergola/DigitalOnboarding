@@ -7,3 +7,7 @@ Accept: application/json
 GET {{DigitalOnboarding.Server_HostAddress}}/projects/
 Accept: application/json
 ###
+
+GET {{DigitalOnboarding.Server_HostAddress}}/projects/1
+Accept: application/json
+###

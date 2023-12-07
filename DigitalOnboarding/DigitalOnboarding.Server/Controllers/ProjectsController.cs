@@ -23,9 +23,9 @@ namespace DigitalOnboarding.Server.Controllers
 
 		// GET <ProjectsController>/5
 		[HttpGet("{id}")]
-		public string Get(int id)
+		public Project Get(int id)
 		{
-			return "value";
+			return _context.Project.Find(id);
 		}
 
 		// POST <ProjectsController>

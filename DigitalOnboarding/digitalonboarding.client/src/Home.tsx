@@ -13,16 +13,11 @@ const Home = () => {
 
     useEffect(() => {
         populateProjectsData();
-    }, [])
+    }, []);
 
-    return (
-        <>
-            <h1>
-                {greet('Karolis')}
-            </h1>
-            <button onClick={() => navigate('/')}>
-                Login
-            </button>
+    const contents = projects === undefined
+        ? <p><em>Loading...</em></p>
+        : <>
             <table className="table">
                 <thead>
                     <tr>
@@ -33,7 +28,7 @@ const Home = () => {
                 </thead>
                 <tbody>
                     {projects?.map((project) => (
-                        <tr>
+                        <tr onClick={() => navigate('/project/' + project.id)}>
                             <th scope="row">{project.id}</th>
                             <td>{project.projectName}</td>
                             <td>{project.projectDescription}</td>
@@ -41,7 +36,21 @@ const Home = () => {
                     ))}
                 </tbody>
             </table>
-        </>
+        </>;
+
+    return (
+        <div>
+            <h1 id="tabelLabel">Projects</h1>
+            <h1>
+                {greet('Karolis')}
+            </h1>
+            
+            <p>This component demonstrates fetching data from the server.</p>
+            {contents}
+            <button onClick={() => navigate('/')}>
+                Login
+            </button>
+        </div>
     );
 
     async function populateProjectsData() {
