@@ -1,8 +1,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './Login.tsx'
-import Home from './Home.tsx'
+import Login from './pages/Login.tsx'
+import Dashboard from './pages/Dashboard.tsx'
 import Project from './Project.tsx'
+import Navbar from './components/Navbar.tsx'
 
 import {
     BrowserRouter,
@@ -13,6 +14,7 @@ import {
 function App() {
     return (
         <>
+            <Navbar />
             <BrowserRouter>
                 <Routes>
                     <Route
@@ -20,8 +22,8 @@ function App() {
                         element={<Login />}
                     />
                     <Route
-                        path="/home"
-                        element={<Home />}
+                        path="/dashboard"
+                        element={<Dashboard />}
                     />
                     <Route
                         path="/project/:id"
