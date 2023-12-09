@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login.tsx'
 import Dashboard from './pages/Dashboard.tsx'
 import Project from './Project.tsx'
-import Navbar from './components/Navbar.tsx'
+import Navigationbar from './components/Navigationbar.tsx'
 
 import {
     BrowserRouter,
@@ -14,15 +14,15 @@ import {
 function App() {
     return (
         <>
-            <Navbar />
+            <Navigationbar />
             <BrowserRouter>
                 <Routes>
                     <Route
-                        path="/"
+                        path="/login"
                         element={<Login />}
                     />
                     <Route
-                        path="/dashboard"
+                        path="/"
                         element={<Dashboard />}
                     />
                     <Route

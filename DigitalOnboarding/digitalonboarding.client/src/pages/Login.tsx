@@ -14,19 +14,13 @@ const Login = () => {
         <div className="container">
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="email">Email address</label>
-                    <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                <div className="form-group mt-2">
                     <input type="password" className="form-control" id="password" placeholder="Password" />
+                    <small id="passwordHelp" class="form-text text-muted">Forgot Password?</small>
                 </div>
-                <div className="form-check">
-                    <input type="checkbox" className="form-check-input" id="remember" />
-                    <label className="form-check-label" htmlFor="remember">Remember me</label>
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary w-100 mt-2">Login</button>
             </form>
         </div>
     );
