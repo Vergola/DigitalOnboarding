@@ -30,8 +30,11 @@ namespace DigitalOnboarding.Server.Controllers
 
 		// POST <ProjectsController>
 		[HttpPost]
-		public void Post([FromBody] string value)
+		public IEnumerable<Project> Post([FromBody] Project project)
 		{
+			_context.Project.Add(project);
+			_context.SaveChanges();
+			return _context.Project.ToList();
 		}
 
 		// PUT <ProjectsController>/5
