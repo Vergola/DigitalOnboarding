@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { Grid } from "gridjs-react";
 
 interface Project {
     id: number;
@@ -46,39 +47,26 @@ const Dashboard = () => {
             </Modal>
         </>
     )
-
+    
     const contents = projects === undefined
         ? <p><em>Loading projects...</em></p>
-        : <>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {projects?.map((project) => (
-                        <tr onClick={() => navigate('/project/' + project.id)}>
-                            <th scope="row">{project.id}</th>
-                            <td>{project.projectName}</td>
-                            <td>{project.projectDescription}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </>;
+        :
+        <Grid
+            data={
+                projects?.map((project) => [project.id, project.projectName, project.projectDescription])
+            }
+            columns={['Id', 'Name', 'Description']}
+            search={true}
+            pagination={{
+                enabled: true
+            }}
+        />;
 
     return (
         <div>
-            <h1>
-                Projects
-            </h1>
-            <h1>
-                {greet('Karolis')}
-            </h1>
-            <Button onClick={handleShow} variant="primary">Create Project</Button>
+            <div className="d-flex">
+                <Button className="mx-auto mb-2" onClick={handleShow} variant="primary">Create Project</Button>
+            </div>
             {createProjectModal}
             {contents}
         </div>
@@ -90,12 +78,7 @@ const Dashboard = () => {
         setProjects(data);
     }
 
-    function greet(name: string): string {
-        return `Hello, ${name}!`;
-    }
-
     async function createProject() {
-        //const response = await fetch('projects');
         const response = await fetch(
             'projects',
             {

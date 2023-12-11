@@ -7,7 +7,7 @@ const Login = () => {
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault(); // Prevents the default form submission behavior
 
-        navigate('/dashboard');
+        navigate('/');
     };
 
     return (
