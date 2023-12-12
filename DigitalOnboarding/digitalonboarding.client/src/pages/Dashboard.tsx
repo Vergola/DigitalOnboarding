@@ -47,7 +47,7 @@ const Dashboard = () => {
             </Modal>
         </>
     )
-    
+
     const contents = projects === undefined
         ? <p><em>Loading projects...</em></p>
         :
@@ -56,10 +56,17 @@ const Dashboard = () => {
                 projects?.map((project) => [project.id, project.projectName, project.projectDescription])
             }
             columns={['Id', 'Name', 'Description']}
-            search={true}
-            pagination={{
-                enabled: true
-            }}
+            //onRowClick={(row: Grid.row) => navigate(`/project/${row.cells[0].data}`)}
+            //attributes={ (cell) => {
+            //        // add these attributes to the td elements only
+            //        if (cell) {
+            //            return {
+            //                'data-cell-content': cell,
+            //                'onclick': () => alert(cell)
+            //            };
+            //        }
+            //    }
+            //}
         />;
 
     return (

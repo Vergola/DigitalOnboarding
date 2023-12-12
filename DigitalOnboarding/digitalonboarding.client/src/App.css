@@ -26,3 +26,12 @@ th, td {
     left: 0;
     width: -webkit-fill-available;
 }
+
+.gridjs {
+    display: flex;
+    flex-direction: column;
+}
+
+.gridjs .gridjs-search {
+    float: left;
+}
