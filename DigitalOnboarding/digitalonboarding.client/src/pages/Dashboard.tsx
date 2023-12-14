@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Grid } from "gridjs-react";
+import "gridjs/dist/theme/mermaid.css";
 
 interface Project {
     id: number;
@@ -61,14 +62,14 @@ const Dashboard = () => {
             }
             columns={['Id', 'Name', 'Description', {
                 name: 'Action',
-                attributes: (_cell, row: any, column) => {
+                attributes: (cell, row, column) => {
                     return {
                         'onclick': () => navigate(`/project/${row.cells[0].data}`),
                         'style': 'cursor: pointer',
                     };
                 },
                 formatter: (cell) => {
-                    return 'View';
+                    return "View";
                 }
             }]}
         />;

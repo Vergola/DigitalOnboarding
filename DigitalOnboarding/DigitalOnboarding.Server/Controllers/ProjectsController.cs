@@ -36,17 +36,5 @@ namespace DigitalOnboarding.Server.Controllers
 			_context.SaveChanges();
 			return _context.Project.ToList();
 		}
-
-		// PUT <ProjectsController>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		// DELETE <ProjectsController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}
 	}
 }

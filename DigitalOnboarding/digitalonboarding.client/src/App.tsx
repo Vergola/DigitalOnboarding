@@ -1,5 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Register from './pages/Register.tsx'
 import Login from './pages/Login.tsx'
 import Dashboard from './pages/Dashboard.tsx'
 import Project from './Project.tsx'
@@ -17,6 +18,10 @@ function App() {
             <Navigationbar />
             <BrowserRouter>
                 <Routes>
+                    <Route
+                        path="/register"
+                        element={<Register />}
+                    />
                     <Route
                         path="/login"
                         element={<Login />}

@@ -53,6 +53,10 @@ export default defineConfig({
             '^/projects': {
                 target: 'https://localhost:7148/',
                 secure: false
+            },
+            '^/accounts': {
+                target: 'https://localhost:7148/',
+                secure: false
             }
         },
         port: 5173,

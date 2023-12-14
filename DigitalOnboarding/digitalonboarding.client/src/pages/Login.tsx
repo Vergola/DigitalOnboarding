@@ -18,9 +18,12 @@ const Login = () => {
                 </div>
                 <div className="form-group mt-2">
                     <input type="password" className="form-control" id="password" placeholder="Password" />
-                    <small id="passwordHelp" class="form-text text-muted">Forgot Password?</small>
+                    <small id="passwordHelp" className="form-text text-muted">Forgot Password?</small>
                 </div>
                 <button type="submit" className="btn btn-primary w-100 mt-2">Login</button>
+                <a className="text-decoration-none" href="/register">
+                    <small id="registerHelp" className="form-text text-muted">Don't have an Account?</small>
+                </a>
             </form>
         </div>
     );
