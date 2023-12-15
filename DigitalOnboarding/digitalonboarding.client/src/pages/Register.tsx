@@ -1,13 +1,14 @@
 import { FormEvent } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
 const Register = () => {
+    const [errors, setErrors] = useState([]); // State variable to store errors]
     const navigate = useNavigate();
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault(); // Prevents the default form submission behavior
         await register();
-        navigate('/login');
     };
 
     return (
@@ -18,6 +19,17 @@ const Register = () => {
                 </div>
                 <div className="form-group mt-2">
                     <input type="password" className="form-control" id="password" placeholder="Password" />
+                    <div className="mt-3">
+                        {
+                            errors?.map(error => {
+                                return (
+                                    <div className="alert alert-danger" role="alert">
+                                        {error}
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
                 <button type="submit" className="btn btn-primary w-100 mt-2">Register</button>
             </form>
@@ -35,7 +47,12 @@ const Register = () => {
                 body: '{"email": "' + (document.getElementById("email") as HTMLInputElement).value + '", "password": "' + (document.getElementById("password") as HTMLInputElement).value + '"}'
             });
         const data = await response.json();
-        console.log(data);
+        if (data.errors) {
+            setErrors(data.errors);
+        }
+        if (response.ok) {
+            navigate("/login");
+        }
     }
 };
 
