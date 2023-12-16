@@ -18,6 +18,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 	.AddEntityFrameworkStores<ApplicationDbContext>()
 	.AddDefaultTokenProviders();
 
+//builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DigitalOnboarding.Server.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DigitalOnboarding.Server.Controllers
 {
+	[Authorize]
 	[ApiController]
 	[Route("[controller]")]
 	public class ProjectsController : ControllerBase

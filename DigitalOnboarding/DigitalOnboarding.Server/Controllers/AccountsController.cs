@@ -90,5 +90,32 @@ namespace DigitalOnboarding.Server.Controllers
 				return StatusCode(500, new { Message = "An error occurred during login." });
 			}
 		}
+
+		[HttpPost("logout")]
+		public async Task<IActionResult> Logout()
+		{
+			try
+			{
+				// Use SignInManager to sign out the user
+				await _signInManager.SignOutAsync();
+
+				// You can customize the response based on your application's needs
+				return Ok(new { Message = "Logout successful" });
+			}
+			catch (Exception ex)
+			{
+				// Log the exception and return a generic error message
+				Console.Error.WriteLine($"Error during logout: {ex.Message}");
+				return StatusCode(500, new { Message = "An error occurred during logout." });
+			}
+		}
+
+		[HttpGet("status")]
+		public IActionResult Status()
+		{
+			bool isAuthenticated = _signInManager.IsSignedIn(User);
+
+			return Ok(new { isAuthenticated });
+		}
 	}
 }

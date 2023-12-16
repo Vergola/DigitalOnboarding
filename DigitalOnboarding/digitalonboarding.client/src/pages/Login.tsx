@@ -1,14 +1,16 @@
 import { FormEvent } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
+import { useAuth } from '../services/AuthProvider.tsx';
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [errors, setErrors] = useState(); // State variable to store errors]
 
     const handleSubmit = async (event: FormEvent) => {
-        event.preventDefault(); // Prevents the default form submission behavior
-        await login();
+        event.preventDefault();
+        await logins();
     };
 
     return (
@@ -38,7 +40,7 @@ const Login = () => {
         </div>
     );
 
-    async function login() {
+    async function logins() {
         const response = await fetch(
             'accounts/login',
             {
@@ -53,6 +55,7 @@ const Login = () => {
             setErrors(data.errors);
         }
         if (response.ok) {
+            login();
             navigate('/');
         }
     }
