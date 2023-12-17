@@ -1,7 +1,10 @@
 ﻿using DigitalOnboarding.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 namespace DigitalOnboarding.Server.Controllers
 {
 	[ApiController]
@@ -10,11 +13,13 @@ namespace DigitalOnboarding.Server.Controllers
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly IConfiguration _configuration;
 
-		public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+		public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
+			_configuration = configuration;
 		}
 
 		[HttpPost]
@@ -74,8 +79,14 @@ namespace DigitalOnboarding.Server.Controllers
 				// Check if the sign in was successful
 				if (result.Succeeded)
 				{
-					// You can customize the response based on your application's needs
-					return Ok(new { Message = "Login successful" });
+					// Get the user based on the provided email
+					var user = await _userManager.FindByEmailAsync(account.Email);
+
+					// Generate a JWT token
+					var token = GenerateJwtToken(user);
+
+					// Return the token in the response
+					return Ok(new { Token = token, Message = "Login successful" });
 				}
 				else
 				{
@@ -116,6 +127,27 @@ namespace DigitalOnboarding.Server.Controllers
 			bool isAuthenticated = _signInManager.IsSignedIn(User);
 
 			return Ok(new { isAuthenticated });
+		}
+
+		private string GenerateJwtToken(ApplicationUser user)
+		{
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+
+			var tokenDescriptor = new SecurityTokenDescriptor
+			{
+				Subject = new ClaimsIdentity(new[]
+				{
+				new Claim(ClaimTypes.Name, user.Id),
+				new Claim(ClaimTypes.Email, user.Email),
+                // Add additional claims as needed
+            }),
+				Expires = DateTime.UtcNow.AddHours(1), // Adjust expiration as needed
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+			};
+
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			return tokenHandler.WriteToken(token);
 		}
 	}
 }

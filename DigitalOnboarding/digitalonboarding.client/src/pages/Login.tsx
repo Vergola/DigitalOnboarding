@@ -51,10 +51,12 @@ const Login = () => {
                 body: '{"email": "' + (document.getElementById("email") as HTMLInputElement).value + '", "password": "' + (document.getElementById("password") as HTMLInputElement).value + '"}'
             });
         const data = await response.json();
+        console.log(data);
         if (data.errors) {
             setErrors(data.errors);
         }
         if (response.ok) {
+            
             login();
             navigate('/');
         }
