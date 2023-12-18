@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -13,16 +13,18 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    //const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    const isAuthenticated = !!localStorage.getItem('token');
 
     const login = async () => {
         // Perform login logic, update isAuthenticated state
-        setIsAuthenticated(true);
+        //setIsAuthenticated(true);
     };
 
     const logout = async () => {
         // Perform logout logic, update isAuthenticated state
-        setIsAuthenticated(false);
+        //setIsAuthenticated(false);
     };
 
     return (

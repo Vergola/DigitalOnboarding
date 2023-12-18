@@ -56,7 +56,8 @@ const Login = () => {
             setErrors(data.errors);
         }
         if (response.ok) {
-            
+            if (data?.token)
+                localStorage.setItem('token', data.token);
             login();
             navigate('/');
         }
