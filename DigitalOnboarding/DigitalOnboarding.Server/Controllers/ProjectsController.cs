@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DigitalOnboarding.Server.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	[ApiController]
 	[Route("[controller]")]
 	public class ProjectsController : ControllerBase
