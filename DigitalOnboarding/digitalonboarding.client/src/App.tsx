@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard.tsx';
 import Project from './Project.tsx';
 import Navigationbar from './components/Navigationbar.tsx';
 import ProtectedRoute from './util/ProtectedRoute.tsx';
+import Logout from './pages/Logout.tsx';
 
 import {
     BrowserRouter,
@@ -17,9 +18,9 @@ import { AuthProvider } from './services/AuthProvider.tsx';
 function App() {
     return (
         <>
-            <Navigationbar />
             <BrowserRouter>
                 <AuthProvider>
+                    <Navigationbar />
                     <Routes>
                         <Route
                             path="/register"
@@ -28,6 +29,10 @@ function App() {
                         <Route
                             path="/login"
                             element={<Login />}
+                        />
+                        <Route
+                            path="/logout"
+                            element={<Logout />}
                         />
                         <Route
                             path="/"

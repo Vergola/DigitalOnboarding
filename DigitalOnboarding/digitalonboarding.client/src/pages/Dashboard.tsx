@@ -85,7 +85,13 @@ const Dashboard = () => {
     );
 
     async function populateProjectsData() {
-        const response = await fetch('projects');
+        const response = await fetch(
+            'projects',
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            });
         const data = await response.json();
         setProjects(data);
     }
@@ -96,6 +102,7 @@ const Dashboard = () => {
             {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json', // Set the Content-Type header to indicate JSON format
                 },
                 body: '{"projectName": "' + (document.getElementById("name") as HTMLInputElement).value + '", "projectDescription": "' + (document.getElementById("description") as HTMLInputElement).value + '"}'

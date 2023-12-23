@@ -6,11 +6,11 @@ import { useAuth } from '../services/AuthProvider.tsx';
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
-    const [errors, setErrors] = useState(); // State variable to store errors]
+    const [errors, setErrors] = useState();
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        await logins();
+        await loginUser();
     };
 
     return (
@@ -40,13 +40,13 @@ const Login = () => {
         </div>
     );
 
-    async function logins() {
+    async function loginUser() {
         const response = await fetch(
             'accounts/login',
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // Set the Content-Type header to indicate JSON format
+                    'Content-Type': 'application/json',
                 },
                 body: '{"email": "' + (document.getElementById("email") as HTMLInputElement).value + '", "password": "' + (document.getElementById("password") as HTMLInputElement).value + '"}'
             });

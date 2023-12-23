@@ -132,7 +132,7 @@ namespace DigitalOnboarding.Server.Controllers
 		private string GenerateJwtToken(ApplicationUser user)
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+			var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]);
 
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{

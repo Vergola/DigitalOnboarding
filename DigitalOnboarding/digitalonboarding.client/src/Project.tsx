@@ -24,7 +24,11 @@ const Project = () => {
     );
 
     async function populateProjectData() {
-        const response = await fetch('/projects/' + id);
+        const response = await fetch('/projects/' + id, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
         const data = await response.json();
         setProject(data);
     }
