@@ -4,6 +4,7 @@ using DigitalOnboarding.Server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,15 +18,15 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlite(connectionString));
 
-builder.Services.AddCors(options =>
-{
-	options.AddDefaultPolicy(builder =>
-	{
-		builder.AllowAnyOrigin()
-			   .AllowAnyHeader()
-			   .AllowAnyMethod();
-	});
-});
+//builder.Services.AddCors(options =>
+//{
+//	options.AddDefaultPolicy(builder =>
+//	{
+//		builder.AllowAnyOrigin()
+//			   .AllowAnyHeader()
+//			   .AllowAnyMethod();
+//	});
+//});
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 	.AddEntityFrameworkStores<ApplicationDbContext>()
@@ -41,14 +42,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	{
 		options.TokenValidationParameters = new TokenValidationParameters
 		{
-			ValidateIssuer = true,
-			ValidateAudience = true,
 			ValidateLifetime = true,
 			ValidateIssuerSigningKey = true,
 			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"]))
 		};
 	});
 builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization(options =>
+//{
+//	options.DefaultPolicy = new AuthorizationPolicyBuilder()
+//		.RequireAuthenticatedUser()
+//		.Build();
+//});
 
 var app = builder.Build();
 
@@ -67,6 +72,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+//app.UseCors();
 
 app.MapControllers();
 

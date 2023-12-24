@@ -85,13 +85,15 @@ const Dashboard = () => {
     );
 
     async function populateProjectsData() {
+        //const response = await fetch(
+        //    'projects',
+        //    {
+        //        headers: {
+        //            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        //        },
+        //    });
         const response = await fetch(
-            'projects',
-            {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-            });
+            'projects');
         const data = await response.json();
         setProjects(data);
     }

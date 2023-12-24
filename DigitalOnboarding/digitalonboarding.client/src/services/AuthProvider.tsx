@@ -23,8 +23,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const logout = async () => {
         // Perform logout logic, update isAuthenticated state
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
+        const response = await fetch('accounts/logout', {
+            method: 'POST',
+        });
+        if (response.ok) {
+            localStorage.removeItem('token');
+            setIsAuthenticated(false);
+        }
     };
 
     return (

@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DigitalOnboarding.Server.Controllers
 {
-	[Authorize]
 	[ApiController]
 	[Route("[controller]")]
+	[Authorize]
 	public class ProjectsController : ControllerBase
 	{
 		private readonly ApplicationDbContext _context;
