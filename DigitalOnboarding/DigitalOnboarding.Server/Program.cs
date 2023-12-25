@@ -31,23 +31,23 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 	.AddEntityFrameworkStores<ApplicationDbContext>()
 	.AddDefaultTokenProviders();
-var configuration = new ConfigurationBuilder()
-					.SetBasePath(Directory.GetCurrentDirectory())
-					.AddJsonFile("appsettings.json")
-					.Build();
-var jwtConfig = configuration.GetSection("Jwt");
+//var configuration = new ConfigurationBuilder()
+//					.SetBasePath(Directory.GetCurrentDirectory())
+//					.AddJsonFile("appsettings.json")
+//					.Build();
+//var jwtConfig = configuration.GetSection("Jwt");
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-	.AddJwtBearer(options =>
-	{
-		options.TokenValidationParameters = new TokenValidationParameters
-		{
-			ValidateLifetime = true,
-			ValidateIssuerSigningKey = true,
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"]))
-		};
-	});
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//	.AddJwtBearer(options =>
+//	{
+//		options.TokenValidationParameters = new TokenValidationParameters
+//		{
+//			ValidateLifetime = true,
+//			ValidateIssuerSigningKey = true,
+//			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"]))
+//		};
+//	});
+//builder.Services.AddAuthorization();
 //builder.Services.AddAuthorization(options =>
 //{
 //	options.DefaultPolicy = new AuthorizationPolicyBuilder()
@@ -69,9 +69,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+//app.UseAuthentication();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 //app.UseCors();
 

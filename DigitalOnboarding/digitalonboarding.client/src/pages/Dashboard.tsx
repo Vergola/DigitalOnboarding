@@ -104,7 +104,7 @@ const Dashboard = () => {
             {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    //'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json', // Set the Content-Type header to indicate JSON format
                 },
                 body: '{"projectName": "' + (document.getElementById("name") as HTMLInputElement).value + '", "projectDescription": "' + (document.getElementById("description") as HTMLInputElement).value + '"}'
