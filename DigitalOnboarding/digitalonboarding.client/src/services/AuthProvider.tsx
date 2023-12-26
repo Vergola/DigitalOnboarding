@@ -25,8 +25,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         fetchData();
     }, []);
 
-    
-
     const login = async () => {
         // Perform login logic, update isAuthenticated state
         setIsAuthenticated(true);
@@ -34,7 +32,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const logout = async () => {
         // Perform logout logic, update isAuthenticated state
-        const response = await fetch('accounts/logout', {
+        const response = await fetch('/accounts/logout', {
             method: 'POST',
         });
         if (response.ok) {
@@ -43,7 +41,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const status = async () => {
-        const response = await fetch('accounts/status');
+        const response = await fetch('/accounts/status');
         const data = await response.json();
         if (response.ok) {
             return data.isAuthenticated;

@@ -60,9 +60,15 @@ const Dashboard = () => {
                     project.projectDescription
                 ])
             }
-            columns={['Id', 'Name', 'Description', {
+            columns={[
+                {
+                    name: 'Id',
+                    hidden: true
+                },
+                'Name',
+                'Description', {
                 name: 'Action',
-                attributes: (cell, row, column) => {
+                attributes: (cell: Cell, row: Row, column: Column) => {
                     return {
                         'onclick': () => navigate(`/project/${row.cells[0].data}`),
                         'style': 'cursor: pointer',
@@ -85,13 +91,6 @@ const Dashboard = () => {
     );
 
     async function populateProjectsData() {
-        //const response = await fetch(
-        //    'projects',
-        //    {
-        //        headers: {
-        //            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //        },
-        //    });
         const response = await fetch(
             'projects');
         const data = await response.json();
@@ -104,7 +103,6 @@ const Dashboard = () => {
             {
                 method: 'POST',
                 headers: {
-                    //'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json', // Set the Content-Type header to indicate JSON format
                 },
                 body: '{"projectName": "' + (document.getElementById("name") as HTMLInputElement).value + '", "projectDescription": "' + (document.getElementById("description") as HTMLInputElement).value + '"}'

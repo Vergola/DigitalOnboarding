@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Register from './pages/Register.tsx';
 import Login from './pages/Login.tsx';
 import Dashboard from './pages/Dashboard.tsx';
-import Project from './Project.tsx';
+import Project from './pages/Project.tsx';
 import Navigationbar from './components/Navigationbar.tsx';
 import ProtectedRoute from './util/ProtectedRoute.tsx';
 import Logout from './pages/Logout.tsx';

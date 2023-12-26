@@ -32,8 +32,15 @@ namespace DigitalOnboarding.Server.Controllers
 		[HttpGet("{id}")]
 		public Project Get(int id)
 		{
-			var userId = _userManager.GetUserId(User);
-			return _context.Project.Single(p => p.Id == id && p.UserId == userId);
+			try
+			{
+				var userId = _userManager.GetUserId(User);
+				return _context.Project.Single(p => p.Id == id && p.UserId == userId);
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		// POST <ProjectsController>
