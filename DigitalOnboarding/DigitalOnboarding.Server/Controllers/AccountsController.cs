@@ -83,12 +83,8 @@ namespace DigitalOnboarding.Server.Controllers
 					// Get the user based on the provided email
 					var user = await _userManager.FindByEmailAsync(account.Email);
 
-					// Generate a JWT token
-					// var token = GenerateJwtToken(user);
-
 					// Return the token in the response
-					// return Ok(new { Token = token, Message = "Login successful" });
-					return Ok(new { Token = "empty", Message = "Login successful" });
+					return Ok(new { Message = "Login successful" });
 				}
 				else
 				{
@@ -130,26 +126,5 @@ namespace DigitalOnboarding.Server.Controllers
 
 			return Ok(new { isAuthenticated });
 		}
-
-		//private string GenerateJwtToken(ApplicationUser user)
-		//{
-		//	var tokenHandler = new JwtSecurityTokenHandler();
-		//	var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]);
-
-		//	var tokenDescriptor = new SecurityTokenDescriptor
-		//	{
-		//		Subject = new ClaimsIdentity(new[]
-		//		{
-		//		new Claim(ClaimTypes.Name, user.Id),
-		//		new Claim(ClaimTypes.Email, user.Email),
-  //              // Add additional claims as needed
-  //          }),
-		//		Expires = DateTime.UtcNow.AddHours(1), // Adjust expiration as needed
-		//		SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-		//	};
-
-		//	var token = tokenHandler.CreateToken(tokenDescriptor);
-		//	return tokenHandler.WriteToken(token);
-		//}
 	}
 }

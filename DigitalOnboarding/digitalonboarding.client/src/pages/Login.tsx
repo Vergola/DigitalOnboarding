@@ -1,17 +1,22 @@
 import { FormEvent } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from '../services/AuthProvider.tsx';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, logout, isAuthenticated, isAuthCheckComplete } = useAuth();
     const [errors, setErrors] = useState();
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         await loginUser();
     };
+
+    useEffect(() => {
+        if (isAuthenticated && isAuthCheckComplete)
+            logout();
+    });
 
     return (
         <div className="container">
@@ -51,13 +56,10 @@ const Login = () => {
                 body: '{"email": "' + (document.getElementById("email") as HTMLInputElement).value + '", "password": "' + (document.getElementById("password") as HTMLInputElement).value + '"}'
             });
         const data = await response.json();
-        console.log(data);
         if (data.errors) {
             setErrors(data.errors);
         }
         if (response.ok) {
-            if (data?.token)
-                localStorage.setItem('token', data.token);
             login();
             navigate('/');
         }

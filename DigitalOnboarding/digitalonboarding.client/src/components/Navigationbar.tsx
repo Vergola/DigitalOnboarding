@@ -4,13 +4,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useAuth } from '../services/AuthProvider.tsx';
 
 const Navigationbar = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isAuthCheckComplete } = useAuth();
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
                 <Navbar.Brand href="/">Digital Onboarding</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                {isAuthenticated &&
+                {(isAuthenticated && isAuthCheckComplete) &&
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/">Dashboard</Nav.Link>

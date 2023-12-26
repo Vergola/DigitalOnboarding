@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface AuthContextType {
     isAuthenticated: boolean;
+    isAuthCheckComplete: boolean;
     login: () => void;
     logout: () => void;
 }
@@ -13,12 +14,22 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsAuthenticated(await status());
+            setIsAuthCheckComplete(true);
+        };
+        fetchData();
+    }, []);
+
+    
 
     const login = async () => {
         // Perform login logic, update isAuthenticated state
-        if (localStorage.getItem('token'))
-            setIsAuthenticated(true);
+        setIsAuthenticated(true);
     };
 
     const logout = async () => {
@@ -27,13 +38,21 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             method: 'POST',
         });
         if (response.ok) {
-            localStorage.removeItem('token');
             setIsAuthenticated(false);
         }
     };
 
+    const status = async () => {
+        const response = await fetch('accounts/status');
+        const data = await response.json();
+        if (response.ok) {
+            return data.isAuthenticated;
+        }
+        return false;
+    }
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isAuthCheckComplete, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

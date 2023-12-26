@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace DigitalOnboarding.Server.Models
+﻿namespace DigitalOnboarding.Server.Models
 {
 	public class Account
 	{
