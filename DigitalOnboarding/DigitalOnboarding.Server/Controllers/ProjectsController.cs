@@ -53,5 +53,16 @@ namespace DigitalOnboarding.Server.Controllers
 			_context.SaveChanges();
 			return _context.Project.ToList();
 		}
+
+		// DELETE <ProjectsController>/5
+		[HttpDelete("{id}")]
+		public IEnumerable<Project> Delete(int id)
+		{
+			var userId = _userManager.GetUserId(User);
+			var project = _context.Project.Single(p => p.Id == id && p.UserId == userId);
+			_context.Project.Remove(project);
+			_context.SaveChanges();
+			return _context.Project.ToList();
+		}
 	}
 }

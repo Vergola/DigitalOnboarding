@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Grid } from "gridjs-react";
-import "gridjs/dist/theme/mermaid.css";
+import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
+import * as React from 'react';
 
 interface Project {
     id: number;
@@ -22,6 +22,14 @@ const Dashboard = () => {
     useEffect(() => {
         populateProjectsData();
     }, []);
+
+    const [selectionModel, setSelectionModel] = React.useState<GridRowSelectionModel>([]);
+
+    const handleSelectionModelChange = (newSelectionModel: GridRowSelectionModel) => {
+        setSelectionModel(newSelectionModel);
+        // Do something with the selected rows
+        console.log('Selected Rows:', newSelectionModel);
+    };
 
     const createProjectModal = (
         <>
@@ -49,36 +57,70 @@ const Dashboard = () => {
         </>
     )
 
+    //const contents = projects === undefined
+    //    ? <p><em>loading projects...</em></p>
+    //    :
+    //    <grid
+    //        data={
+    //            projects?.map((project) => [
+    //                project.id,
+    //                project.projectname,
+    //                project.projectdescription
+    //            ])
+    //        }
+    //        columns={[
+    //            {
+    //                name: 'id',
+    //                hidden: true
+    //            },
+    //            'name',
+    //            'description', {
+    //            name: 'action',
+    //            attributes: (cell: cell, row: row, column: column) => {
+    //                return {
+    //                    'onclick': () => navigate(`/project/${row.cells[0].data}`),
+    //                    'style': 'cursor: pointer',
+    //                };
+    //            },
+    //            formatter: (cell) => {
+    //                return "view";
+    //            }
+    //        }]}
+    //    />;
+
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Name', width: 130 },
+        { field: 'description', headerName: 'Description', width: 130 }
+    ];
+
+    const rows =
+        projects?.map((project) => {
+            return {
+                id: project.id,
+                name: project.projectName,
+                description: project.projectDescription
+            }
+        });
+
     const contents = projects === undefined
         ? <p><em>Loading projects...</em></p>
         :
-        <Grid
-            data={
-                projects?.map((project) => [
-                    project.id,
-                    project.projectName,
-                    project.projectDescription
-                ])
-            }
-            columns={[
-                {
-                    name: 'Id',
-                    hidden: true
-                },
-                'Name',
-                'Description', {
-                name: 'Action',
-                attributes: (cell: Cell, row: Row, column: Column) => {
-                    return {
-                        'onclick': () => navigate(`/project/${row.cells[0].data}`),
-                        'style': 'cursor: pointer',
-                    };
-                },
-                formatter: (cell) => {
-                    return "View";
-                }
-            }]}
-        />;
+        <div style={{ height: 400, width: '100%' }}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 5 },
+                    },
+                }}
+                pageSizeOptions={[5, 10]}
+                checkboxSelection
+                onSelectionModelChange={handleSelectionModelChange}
+                selectionModel={selectionModel}
+            />
+        </div>;
 
     return (
         <div>
@@ -87,6 +129,9 @@ const Dashboard = () => {
             </div>
             {createProjectModal}
             {contents}
+            <div className="d-flex mt-2">
+                <Button className="mx-auto mb-2" onClick={deleteProject} variant="primary">Delete Selected</Button>
+            </div>
         </div>
     );
 
@@ -110,6 +155,17 @@ const Dashboard = () => {
         const data = await response.json();
         setProjects(data);
         handleClose();
+    }
+
+    async function deleteProject() {
+        const response = await fetch(
+            '/projects/' + 1,
+            {
+                method: 'DELETE'
+            }
+        );
+        const data = await response.json();
+        setProjects(data);
     }
 };
 
