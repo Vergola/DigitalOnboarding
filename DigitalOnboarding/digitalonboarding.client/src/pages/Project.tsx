@@ -6,6 +6,7 @@ interface Project {
     id: number;
     projectName: string;
     projectDescription: string;
+    projectType: string;
 }
 
 const Project = () => {
@@ -22,6 +23,7 @@ const Project = () => {
             <h1>Project</h1>
             <h1>{project?.projectName}</h1>
             <p>{project?.projectDescription}</p>
+            <p>{project?.projectType}</p>
         </div>
     );
 

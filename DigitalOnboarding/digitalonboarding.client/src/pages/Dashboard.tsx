@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid';
-import * as React from 'react';
+import $ from 'jquery';
 
 interface Project {
     id: number;
     projectName: string;
     projectDescription: string;
+    projectType: string;
 }
 
 const Dashboard = () => {
@@ -23,14 +23,6 @@ const Dashboard = () => {
         populateProjectsData();
     }, []);
 
-    const [selectionModel, setSelectionModel] = React.useState<GridRowSelectionModel>([]);
-
-    const handleSelectionModelChange = (newSelectionModel: GridRowSelectionModel) => {
-        setSelectionModel(newSelectionModel);
-        // Do something with the selected rows
-        console.log('Selected Rows:', newSelectionModel);
-    };
-
     const createProjectModal = (
         <>
             <Modal show={show} onHide={handleClose}>
@@ -44,6 +36,12 @@ const Dashboard = () => {
                     <div className="form-group mt-2">
                         <input type="text" className="form-control" id="description" placeholder="Description" />
                     </div>
+                    <select className="form-select mt-2" aria-label="Default select example" id="type" defaultValue={'DEFAULT'}>
+                        <option value="DEFAULT" disabled>Select Project Type...</option>
+                        <option value="Lithuania">Lithuania</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="France">France</option>
+                    </select>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
@@ -57,81 +55,44 @@ const Dashboard = () => {
         </>
     )
 
-    //const contents = projects === undefined
-    //    ? <p><em>loading projects...</em></p>
-    //    :
-    //    <grid
-    //        data={
-    //            projects?.map((project) => [
-    //                project.id,
-    //                project.projectname,
-    //                project.projectdescription
-    //            ])
-    //        }
-    //        columns={[
-    //            {
-    //                name: 'id',
-    //                hidden: true
-    //            },
-    //            'name',
-    //            'description', {
-    //            name: 'action',
-    //            attributes: (cell: cell, row: row, column: column) => {
-    //                return {
-    //                    'onclick': () => navigate(`/project/${row.cells[0].data}`),
-    //                    'style': 'cursor: pointer',
-    //                };
-    //            },
-    //            formatter: (cell) => {
-    //                return "view";
-    //            }
-    //        }]}
-    //    />;
-
-    const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'Name', width: 130 },
-        { field: 'description', headerName: 'Description', width: 130 }
-    ];
-
-    const rows =
-        projects?.map((project) => {
-            return {
-                id: project.id,
-                name: project.projectName,
-                description: project.projectDescription
-            }
-        });
-
     const contents = projects === undefined
         ? <p><em>Loading projects...</em></p>
         :
-        <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                pageSizeOptions={[5, 10]}
-                checkboxSelection
-                onSelectionModelChange={handleSelectionModelChange}
-                selectionModel={selectionModel}
-            />
+        <div style={{ width: '100%' }}>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {projects?.map((project) => {
+                    return (
+                        <tr key={project.id}>
+                            <td>{project.projectName}</td>
+                            <td>{project.projectDescription}</td>
+                            <td>{project.projectType}</td>
+                            <td className="p-2">
+                                <Button variant="primary" className="mr-2" onClick={() => deleteProject(project.id)}>Delete</Button>
+                                <Button variant="primary" onClick={() => navigate('/project/' + project.id)}>View</Button>
+                            </td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </table>
         </div>;
 
     return (
         <div>
             <div className="d-flex">
-                <Button className="mx-auto mb-2" onClick={handleShow} variant="primary">Create Project</Button>
+                <Button className="ml-auto mb-2" onClick={handleShow} variant="primary">Create Project</Button>
             </div>
             {createProjectModal}
             {contents}
-            <div className="d-flex mt-2">
-                <Button className="mx-auto mb-2" onClick={deleteProject} variant="primary">Delete Selected</Button>
-            </div>
         </div>
     );
 
@@ -150,16 +111,16 @@ const Dashboard = () => {
                 headers: {
                     'Content-Type': 'application/json', // Set the Content-Type header to indicate JSON format
                 },
-                body: '{"projectName": "' + (document.getElementById("name") as HTMLInputElement).value + '", "projectDescription": "' + (document.getElementById("description") as HTMLInputElement).value + '"}'
+                body: '{"projectName": "' + $("#name").val() + '", "projectDescription": "' + $("#description").val() + '", "projectType": "' + $("#type").val() + '"}'
             });
         const data = await response.json();
         setProjects(data);
         handleClose();
     }
 
-    async function deleteProject() {
+    async function deleteProject(id: number) {
         const response = await fetch(
-            '/projects/' + 1,
+            '/projects/' + id,
             {
                 method: 'DELETE'
             }

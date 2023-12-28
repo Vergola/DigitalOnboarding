@@ -10,6 +10,7 @@ namespace DigitalOnboarding.Server.Models
 		public string? ProjectName { get; set; }
 		public string? ProjectDescription { get; set; }
 		public string? UserId { get; set; }
+		public string? ProjectType { get; set; }
 		public override string ToString()
 		{
 			return JsonSerializer.Serialize(this, new JsonSerializerOptions
