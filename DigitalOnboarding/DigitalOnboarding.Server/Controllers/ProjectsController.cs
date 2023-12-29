@@ -64,5 +64,18 @@ namespace DigitalOnboarding.Server.Controllers
 			_context.SaveChanges();
 			return _context.Project.ToList();
 		}
+
+		// PUT <ProjectsController>
+		[HttpPut]
+		public IEnumerable<Project> Update([FromBody] Project project)
+		{
+			var userId = _userManager.GetUserId(User);
+			var projectToUpdate = _context.Project.Single(p => p.Id == project.Id && p.UserId == userId);
+			projectToUpdate.ProjectName = project.ProjectName;
+			projectToUpdate.ProjectDescription = project.ProjectDescription;
+			projectToUpdate.ProjectType = project.ProjectType;
+			_context.SaveChanges();
+			return _context.Project.ToList();
+		}
 	}
 }
